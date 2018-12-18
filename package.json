@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
-  "description": "wisdom park manage system",
-  "author": "jiahe.xu<xujiahe@megvii.com>",
+  "description": "a express project for vue",
+  "author": "jiahe.xu<xjh0704@126.com>",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
