@@ -88,7 +88,6 @@
 |
 ├── static                                      // 静态文件
 ├── uploads                                     // 上传文件临时保存未知
-├── .npmrc                                      // npm私服映射
 ├── favicon.ico                                 // 浏览器访问地址的图标
 ├── package.json                                // 整体运行配置文件
 ├── pm2.json                                    // pm2服务器启动参数
