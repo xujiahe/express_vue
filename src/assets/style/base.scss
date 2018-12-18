@@ -1,0 +1,297 @@
+/* 隐藏 & 显示 配合js */
+.hide {
+  display: none !important;
+}
+
+.show {
+  display: block !important;
+}
+
+/* 常用 */
+.pr {
+  position: relative;
+}
+
+.txt-r {
+  text-align: right;
+}
+
+.txt-center {
+  text-align: center;
+}
+
+.txt-c {
+  text-align: center;
+}
+
+.over-flow {
+  overflow: hidden;
+}
+
+.vertical-1 {
+  vertical-align: -1px;
+}
+
+.mg0 {
+  margin: 0 !important;
+}
+
+.ml10 {
+  margin-left: 10px !important;
+}
+
+.ml15 {
+  margin-left: 15px !important;
+}
+
+.ml40 {
+  margin-left: 40px !important;
+}
+
+.ml110 {
+  margin-left: 110px !important;
+}
+
+.mr5 {
+  margin-right: 5px !important;
+}
+
+.mr8 {
+  margin-right: 8px !important;
+}
+
+.mr20 {
+  margin-right: 20px !important;
+}
+
+.mr40 {
+  margin-right: 40px !important;
+}
+
+.mb20 {
+  margin-bottom: 20px !important;
+}
+
+.mt20 {
+  margin-top: 20px !important;
+}
+
+.mt40 {
+  margin-top: 40px !important;
+}
+
+.mt15 {
+  margin-top: 15px !important;
+}
+
+.mt25 {
+  margin-top: 25px !important;
+}
+
+.pd16 {
+  padding: 0 16px !important;
+}
+
+.pd12 {
+  padding: 0 12px !important;
+}
+
+.w260 {
+  width: 260px !important;
+}
+
+.w330 {
+  width: 310px;
+}
+
+.w400 {
+  width: 400px;
+}
+
+.w600 {
+  width: 600px !important;
+}
+
+.w50 {
+  width: 50px !important;
+}
+
+.width50 {
+  width: 50px !important;
+}
+
+.width65 {
+  width: 65px !important;
+}
+
+.width100 {
+  width: 100px !important;
+}
+
+.width125 {
+  width: 125px !important;
+}
+
+.width130 {
+  width: 130px !important;
+}
+
+.right28 {
+  right: 28px !important;
+}
+
+/* 字体大小 */
+.fz12 {
+  font-size: 12px;
+}
+
+.fz14 {
+  font-size: 14px !important;
+}
+
+.fz18 {
+  font-size: 18px;
+}
+
+/* 浮动 */
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
+/* 清除浮动 */
+.fn-clear {
+  zoom: 1;
+
+  &:after {
+    display: block;
+    visibility: hidden;
+    clear: both;
+    height: 0;
+    content: '';
+  }
+}
+
+/* 图片自适应 */
+.imgauto {
+  display: block;
+  width: auto;
+  max-height: 100%;
+  margin: 0 auto;
+}
+
+.imgauto-w {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.mgauto-w500 {
+  display: block;
+  max-width: 100%;
+  min-width: 500px;
+  height: auto;
+  max-height: 410px;
+  margin: 0 auto;
+}
+
+.imgauto-h530 {
+  display: block;
+  min-height: 530px;
+  max-height: 100%;
+  width: auto;
+  margin: 0 auto;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+/* 文字溢出隐藏 */
+.text-of {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 伸缩布局容器 */
+.db {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+}
+
+/* 伸缩性 */
+.fx1 {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+/* 伸缩方向为垂直方向 */
+.v {
+  -webkit-box-orient: vertical;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+/* 侧轴方向居中对齐 */
+.vh {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  align-items: center;
+}
+
+/* 主轴和侧轴方向居中对齐 */
+.vm {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: flex;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  align-items: center;
+}
+
+/* 垂直居中 */
+.vm-tran {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* 网页最小宽度 */
+.b-container {
+  min-width: 1440px;
+  margin: 0 auto;
+}
+
+/* 高度100% */
+.height100 {
+  height: 100% !important;
+}
+
+.w100 {
+  width: 100% !important;
+}
+
+/* Transition
+-------------------------- */
+$--all-transition: all .3s cubic-bezier(.645, .045, .355, 1) !default;
+$--fade-transition: opacity 300ms cubic-bezier(0.23, 1, 0.32, 1) !default;
+$--fade-linear-transition: opacity 200ms linear !default;
+$--md-fade-transition: transform 300ms cubic-bezier(0.23, 1, 0.32, 1),
+opacity 300ms cubic-bezier(0.23, 1, 0.32, 1) !default;
+$--border-transition-base: border-color .2s cubic-bezier(.645, .045, .355, 1) !default;
+$--color-transition-base: color .2s cubic-bezier(.645, .045, .355, 1) !default;

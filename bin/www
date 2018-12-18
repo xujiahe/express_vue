@@ -1,0 +1,2 @@
+require('babel-core/register');//使用babel进行转换成ES6模块。
+require('../server');//实际的入口文件

@@ -1,0 +1,89 @@
+variables:
+  DEVOPS_SERVER: ${DEVOPS_SERVER}
+  TARGET_VERSION: ${RAILWAY_RELEASE_VERSION}
+  SOFT_VERSION: ${CI_COMMIT_REF_NAME}
+  ONLY_BRANCH: 'dev'
+  TARGET_BRANCH: ${MERGE_TARGET_BRANCH}
+  SOFT_VERSION_EXT: 'beta'
+
+before_script:
+  - pwd
+after_script:
+ # - sudo rm -rf ${CI_PROJECT_DIR}/node_modules
+
+stages:
+  - front-end
+  - docker-run
+  - merge
+  - release
+
+
+#前端
+front-end:
+  stage: front-end
+  script:
+    - /home/gitlab-runner/shell/railwayci_web_docker_build.sh ${CI_PROJECT_DIR} ${CI_PROJECT_NAME} ${CI_COMMIT_SHA} ${TARGET_VERSION} ${SOFT_VERSION} ${ONLY_BRANCH}
+  tags:
+    - railway_web
+  only:
+    variables:
+      - $ONLY_BRANCH == $CI_COMMIT_REF_NAME
+
+##部署镜像  ${CI_COMMIT_MESSAGE}
+deploy_to_devops:
+  stage: docker-run
+  script:
+    - /home/gitlab-runner/shell/railwayci_web_devops_deploy.sh --PROJECT_NAME=${CI_PROJECT_NAME} --COMMIT_MESSAGE="${CI_COMMIT_MESSAGE}" --SOFT_VERSION=${SOFT_VERSION} --REQUEST_URL=http://${DEVOPS_SERVER}/api/v1/instance/megvii.sng-biz-railwayfc.biz.railwayfc-web --COOKIE=devops-login=MTUyOTQ5MjYwMXx4SW5Rb1o0THBnUGJQNldhTnJsNm80bUlTQlVlaUZ5TTA1Z3k4akozRDNZRGVWTDhheVYyUG5NZDhwZ3QxWE1FN1BTSFNzS1VMeEtEdXJ1dUhBTGlDWkxKcWp1VXNsVk03LTFMRHE3VVV3b09SLUR3OHVPWlBfNERiVnM1QkJlcjk5RVhfbFF6QW16UThsYWFoMEU0WUhwQXFmelJDTWI2MjQ1ZXBEVmVyZDRPamZMMEVJSmNCMFFDTUw5THM4cTJYVzM1LVdTa3dWNzROcEhXM09qbTVRa1lpLTVXZTBtS3hQRVFLQjFSTzk4MFhOZlZrZlp2MU1nS0hqTDZIeGJjaDRFPXxZ_yS-kXw6E47-HeIwfFQBVkH6WIUAH5_Q4N3qQ0sleQ==
+  tags:
+    - railway_web
+  only:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /重启/
+      - $ONLY_BRANCH == $CI_COMMIT_REF_NAME
+
+##将commit的内容合并到指定分支
+Merge:
+  stage: merge
+  script:
+    - /home/gitlab-runner/shell/railwayci_merge_commit.sh ${CI_PROJECT_DIR} ${SOFT_VERSION} ${TARGET_VERSION} ${CI_REPOSITORY_URL} ${GITLAB_USER_LOGIN} ${RAILWAY_RELEASE_USER} ${CI_COMMIT_SHA} ${MERGE_TARGET_BRANCH} ${ONLY_BRANCH} ${GITLAB_USER_EMAIL}
+  tags:
+    - railway_web
+  when: manual
+  only:
+    variables:
+      - $ONLY_BRANCH == $CI_COMMIT_REF_NAME
+
+    # 创建发布版本分支，并打镜像
+Release:
+  stage: release
+  after_script:
+    - /home/gitlab-runner/shell/railwayci_web_docker_build.sh ${CI_PROJECT_DIR} ${CI_PROJECT_NAME} ${CI_COMMIT_SHA} ${TARGET_VERSION} ${TARGET_VERSION} ${ONLY_BRANCH}
+  script:
+    - /home/gitlab-runner/shell/railwayci_create_release.sh ${CI_PROJECT_DIR} ${CI_PROJECT_NAME} ${SOFT_VERSION} ${TARGET_VERSION} ${CI_REPOSITORY_URL} ${GITLAB_USER_LOGIN} ${RAILWAY_RELEASE_USER} ${CI_COMMIT_SHA} ${MERGE_TARGET_BRANCH} ${ONLY_BRANCH} ${GITLAB_USER_EMAIL}
+  tags:
+    - railway_web
+  when: manual
+  only:
+    variables:
+      - $ONLY_BRANCH == $CI_COMMIT_REF_NAME
+
+##push镜像
+#docker-push:
+#  stage: docker-push
+#  script:
+#    - /home/gitlab-runner/shell/dockerpush.sh ${CI_COMMIT_SHA}
+#  tags:
+#    - railway_web
+#  only:
+#      - triggers
+
+#push-to-qa:
+#  stage: push-to-qa
+#  script:
+#    - /home/gitlab-runner/shell/docker-to-qa.sh ${CI_COMMIT_SHA} -
+#  tags:
+#    - djx_railway
+#  when: manual
+
+
+     #curl -X POST -F token=2909fe933b9de696bc417c7e567d09 -F ref=dzh_tr-from_v4.2 https://git-v.megvii-inc.com/api/v4/projects/73/trigger/pipeline
